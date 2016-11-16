@@ -1,0 +1,18 @@
+Package: rbr
+Type: Package
+Title: Assists with handling databases from R
+Version: 0.0.1
+Author: Jonathan Kennel
+Maintainer: Jonathan Kennel <jkennel@uoguelph.ca>
+Description: Assists with handling databases from R.  Designed for reading, and querying rbr data in sqlite3 and monetdb databases.
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+Depends:
+    data.table,
+    dplyr,
+    dtplyr,
+    tools
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr

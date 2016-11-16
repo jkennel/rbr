@@ -1,0 +1,77 @@
+---
+title: "Using RBR data"
+author: "Jonathan Kennel"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+## Install
+
+To install this package run the following code and choose the appropriate tar.gz file.
+
+```{r a0, echo=TRUE, eval=FALSE}
+install.packages(file.choose(), repos = NULL, type = 'source')
+```
+
+
+## Load package
+```{r a1.5, echo=TRUE, eval=TRUE, results='hide',message=FALSE, warning=FALSE}
+library(kenneldb)
+```
+
+## Read data from rsk file
+
+This reads a single file.
+
+```{r a1, echo=TRUE, eval=FALSE}
+file_name_and_path <- '/media/Data/phd/personel/pat/syngenta/SYN UW1 Baro P1 - 077653_20150410_1435.rsk'
+rbr_data <- read_rbr( db_name = file_name_and_path, 
+                      tz = 'UTC' )
+(rbr_data)
+```
+
+## Read data from rsk file and filter by date
+
+This reads in a single file and filters it by date.
+
+```{r a2, echo=TRUE, eval=FALSE}
+file_name_and_path <- '/media/Data/phd/personel/pat/syngenta/SYN UW1 Baro P1 - 077653_20150410_1435.rsk'
+rbr_data <- filter_rbr( db_name = file_name_and_path, 
+                      start_date = '2014-12-20', 
+                      end_date = '2014-12-21', 
+                      tz = 'UTC' )
+(rbr_data)
+```
+
+## Read all files in folder
+
+This reads in all files from a folder.
+
+```{r a3, echo=TRUE, eval=FALSE}
+
+folder_path <- '/media/Data/phd/personel/pat/syngenta'
+rbr_data <- read_rbr_folder(folder_path,
+                      tz = 'UTC' )
+
+(rbr_data)
+```
+
+
+## Read all files in folder and filter by date
+
+This reads in all files from a folder.
+
+```{r a4, echo=TRUE, eval=FALSE}
+
+folder_path <- '/media/Data/phd/personel/pat/syngenta'
+rbr_data <- filter_rbr_folder(folder_path, 
+                      start_date = '2014-12-20', 
+                      end_date = '2014-12-21', 
+                      tz = 'UTC' )
+(rbr_data)
+```
+
+
