@@ -5,8 +5,9 @@
 #'
 #' @author Jonathan Kennel \email{jkennel@uoguelph.ca}
 #'
-#' @param db_name the path to the rbr database ( rsk )
-#' @param tz the timezone of the input data file
+#' @param db_name character the path to the rbr database ( rsk )
+#' @param sql_text character sql string to execute on connection for filtering
+#' @param tz character the timezone of the input data file
 #'
 #' @return data.table of results
 #'
