@@ -15,7 +15,8 @@ Depends:
     DBI
 Imports:
     dplyr,
-    tools
+    tools,
+    testthat
 Suggests:
     knitr,
     rmarkdown
