@@ -19,7 +19,7 @@ install.packages(file.choose(), repos = NULL, type = 'source')
 
 ## Load package
 ```{r a1.5, echo=TRUE, eval=TRUE, results='hide',message=FALSE, warning=FALSE}
-library(kenneldb)
+library(rbr)
 ```
 
 ## Read data from rsk file

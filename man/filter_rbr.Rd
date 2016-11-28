@@ -2,7 +2,7 @@
 % Please edit documentation in R/filter_rbr.R
 \name{filter_rbr}
 \alias{filter_rbr}
-\title{obtain data from rbr sqlite3 database}
+\title{Obtain data from rbr sqlite3 database}
 \usage{
 filter_rbr(db_name, start_date, end_date, tz = "UTC")
 }
@@ -19,7 +19,7 @@ filter_rbr(db_name, start_date, end_date, tz = "UTC")
 data.table of results
 }
 \description{
-import sqlite data to R
+Import sqlite data to R
 }
 \author{
 Jonathan Kennel \email{jkennel@uoguelph.ca}

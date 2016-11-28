@@ -1,7 +1,7 @@
 #===============================================================================
-#' @title obtain data from rbr sqlite3 database
+#' @title Obtain data from rbr sqlite3 database
 #'
-#' @description import sqlite data to R
+#' @description Import sqlite data to R
 #'
 #' @author Jonathan Kennel \email{jkennel@uoguelph.ca}
 #'
@@ -11,7 +11,13 @@
 #' @param tz the timezone of the input data file
 #'
 #' @return data.table of results
-#'
+#' @import data.table
+#' @importFrom dplyr '%>%'
+#' @importFrom dplyr collect
+#' @importFrom dplyr select
+#' @importFrom dplyr sql
+#' @importFrom dplyr src_sqlite
+#' @importFrom dplyr tbl
 #' @export
 #===============================================================================
 filter_rbr <- function( db_name, start_date, end_date, tz='UTC' ) {
