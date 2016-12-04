@@ -15,17 +15,9 @@
 #===============================================================================
 read_rbr_folder <- function( folder_path, tz='UTC', ... ) {
 
-  # hack for 'global variables NOTE
-  name <- NULL
-
   files <- list.files( folder_path, full.names=TRUE, pattern="*.rsk", ... )
 
-  dtl <- lapply( files, function(f){
-    dt <- read_rbr(f, tz='UTC')
-    dt[,name:=f]
-    return(dt)
-  } )
-
-  return( data.table::rbindlist(dtl) )
+  return( read_rbr_files(files, tz=tz))
 
 }
+

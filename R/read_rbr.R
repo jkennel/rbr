@@ -15,7 +15,6 @@
 read_rbr <- function( db_name, tz='UTC' ) {
 
   sql_text <- "SELECT tstamp/1000.0 as datetime, * FROM data"
-
   return( read_rbr_db( db_name, sql_text, tz ) )
 
 }

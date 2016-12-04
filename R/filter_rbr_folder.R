@@ -17,17 +17,8 @@
 #===============================================================================
 filter_rbr_folder <- function( folder_path, start_date, end_date, tz='UTC', ... ) {
 
-  # hack for 'global variables NOTE
-  name <- NULL
-
   files <- list.files( folder_path, full.names=TRUE, pattern="*.rsk", ... )
 
-  dtl <- lapply( files, function(f){
-    dt <- filter_rbr(f, start_date, end_date, tz='UTC')
-    dt[, name:=f]
-    return(dt)
-  } )
-
-  return( data.table::rbindlist(dtl) )
+  return( filter_rbr_files(files, start_date, end_date, tz=tz) )
 
 }

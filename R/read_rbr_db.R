@@ -18,6 +18,7 @@ read_rbr_db <- function( db_name, sql_text, tz='UTC' ) {
   # hack for 'global variables NOTE
   tstamp <- NULL
   datetime <- NULL
+  datasetID <- NULL
 
   # connect to sqlite database
   db <- dplyr::src_sqlite( db_name )
@@ -28,8 +29,12 @@ read_rbr_db <- function( db_name, sql_text, tz='UTC' ) {
   id   <-  dplyr::collect( tbl( db, sql( "SELECT serialID FROM instruments" ) ) )[[1]]
 
   # time is in milliseconds
-  dt <- dplyr::tbl( db, dplyr::sql(sql_text) ) %>%
-          select( -tstamp )
+  dt <- dplyr::tbl( db, dplyr::sql(sql_text) )   %>%
+    select( -tstamp )
+
+  # remove the datasetID column if it exists
+  fields <- dplyr::tbl_vars(dt)
+  if("datasetID" %in% fields) dt %>% select(-datasetID)
 
   dt <- data.table::setDT( collect( dt, n=Inf )  )
 
