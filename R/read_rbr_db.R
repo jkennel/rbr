@@ -36,17 +36,11 @@ read_rbr_db <- function( db_name, sql_text, tz='UTC' ) {
   fields <- dplyr::tbl_vars(dt)
   if("datasetID" %in% fields) dt %>% select(-datasetID)
 
-  dt <- data.table::setDT( collect( dt, n=Inf )  )
+  # read data into data.table and set key
+  dt <- data.table::setDT( collect( dt, n=Inf ), key=datetime  )
 
   # make sure it has the correct timezone
-  dt[, datetime:= as.POSIXct( datetime,  origin = "1970-01-01", tz=tz, usetz=TRUE )]
-
-  # set the timezone
-  if(tz != 'UTC'){
-    attributes(dt$datetime)$tzone <- "UTC"
-  }
-
-  data.table::setkey( dt, datetime )
+  dt[, datetime := anytime::anytime( datetime, tz=tz, asUTC=TRUE )]
 
   return( dt )
 

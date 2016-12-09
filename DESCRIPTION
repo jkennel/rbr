@@ -15,7 +15,8 @@ Depends:
 Imports:
     dplyr,
     tools,
-    assertthat
+    assertthat,
+    anytime
 Suggests:
     knitr,
     rmarkdown
