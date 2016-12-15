@@ -21,7 +21,7 @@ filter_rbr_files <- function( files, start_date, end_date, tz='UTC' ) {
   name <- NULL
 
   dtl <- lapply( files, function(f){
-    dt <- filter_rbr(f, start_date, end_date, tz='UTC')
+    dt <- filter_rbr(f, start_date, end_date, tz=tz)
     dt[, name:=f]
     return(dt)
   } )

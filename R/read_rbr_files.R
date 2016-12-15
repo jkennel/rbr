@@ -14,7 +14,7 @@
 #===============================================================================
 read_rbr_files <- function( files, tz='UTC') {
 
-  # hack for 'global variables NOTE
+  # hack for 'global variables' NOTE
   name <- NULL
 
   dtl <- lapply( files, function(f){

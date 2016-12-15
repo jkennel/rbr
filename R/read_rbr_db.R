@@ -25,8 +25,8 @@ read_rbr_db <- function( db_name, sql_text, tz='UTC' ) {
   #src_tbls( db )
 
   # get transducer and unit info
-  unit <-  dplyr::collect( tbl( db, sql( "SELECT units FROM channels" ) ) )[[1]]
-  id   <-  dplyr::collect( tbl( db, sql( "SELECT serialID FROM instruments" ) ) )[[1]]
+  # unit <-  dplyr::collect( tbl( db, sql( "SELECT units FROM channels" ) ) )[[1]]
+  # id   <-  dplyr::collect( tbl( db, sql( "SELECT serialID FROM instruments" ) ) )[[1]]
 
   # time is in milliseconds
   dt <- dplyr::tbl( db, dplyr::sql(sql_text) )   %>%
@@ -37,10 +37,13 @@ read_rbr_db <- function( db_name, sql_text, tz='UTC' ) {
   if("datasetID" %in% fields) dt %>% select(-datasetID)
 
   # read data into data.table and set key
-  dt <- data.table::setDT( collect( dt, n=Inf ), key=datetime  )
+  dt <- data.table::setDT( collect( dt, n = Inf ), key = datetime  )
 
   # make sure it has the correct timezone
-  dt[, datetime := anytime::anytime( datetime, tz=tz, asUTC=TRUE )]
+  # only single shift is allowed for all times
+  date_1 <- anytime::anytime(dt$datetime[1], asUTC = TRUE )
+  shift <- RcppCCTZ::tzDiff(tz, 'UTC', date_1)*60*60
+  dt[, datetime := anytime::anytime( datetime+shift, asUTC = TRUE )]
 
   return( dt )
 
