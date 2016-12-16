@@ -41,9 +41,11 @@ read_rbr_db <- function( db_name, sql_text, tz='UTC' ) {
 
   # make sure it has the correct timezone
   # only single shift is allowed for all times
-  date_1 <- anytime::anytime(dt$datetime[1], asUTC = TRUE )
-  shift <- RcppCCTZ::tzDiff(tz, 'UTC', date_1)*60*60
-  dt[, datetime := anytime::anytime( datetime+shift, asUTC = TRUE )]
+  if(nrow(dt) > 0){
+    date_1 <- anytime::anytime(dt$datetime[1], asUTC = TRUE )
+    shift <- RcppCCTZ::tzDiff(tz, 'UTC', date_1)*60*60
+    dt[, datetime := anytime::anytime( datetime+shift, asUTC = TRUE )]
+  }
 
   return( dt )
 
