@@ -12,7 +12,6 @@
 #'
 #' @return data.table of results
 #' @import data.table
-#' @importFrom RcppCCTZ tzDiff
 #' @importFrom dplyr '%>%'
 #' @importFrom dplyr collect
 #' @importFrom dplyr select

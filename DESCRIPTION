@@ -16,8 +16,7 @@ Imports:
     dplyr,
     tools,
     assertthat,
-    anytime,
-    RcppCCTZ
+    anytime
 Suggests:
     knitr,
     rmarkdown
