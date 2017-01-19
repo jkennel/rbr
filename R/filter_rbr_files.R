@@ -15,16 +15,18 @@
 #'
 #' @export
 #===============================================================================
-filter_rbr_files <- function( files, start_date, end_date, tz='UTC' ) {
+filter_rbr_files <- function( files, start_date, end_date, tz = 'UTC' ) {
 
   # hack for 'global variables NOTE
   name <- NULL
 
   dtl <- lapply( files, function(f){
-    dt <- filter_rbr(f, start_date, end_date, tz=tz)
-    dt[, name:=f]
+    dt <- filter_rbr(f, start_date, end_date, tz = tz)
+    dt[, name := f]
     return(dt)
   } )
+
+  dtl <- dtl[sapply( dtl, nrow ) != 0]
 
   return( data.table::rbindlist(dtl) )
 

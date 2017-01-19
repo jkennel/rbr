@@ -13,12 +13,12 @@
 #'
 #' @export
 #===============================================================================
-read_rbr_folder <- function( folder_path, tz='UTC', ... ) {
+read_rbr_folder <- function( folder_path, tz = 'UTC', ... ) {
 
   # get the names .rsk files in folder
-  files <- list.files( folder_path, full.names=TRUE, pattern="*.rsk", ... )
+  files <- list.files( folder_path, full.names = TRUE, pattern = "*.rsk", ... )
 
-  return( read_rbr_files(files, tz=tz))
+  return( read_rbr_files(files, tz = tz))
 
 }
 
