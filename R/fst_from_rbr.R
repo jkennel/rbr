@@ -9,6 +9,7 @@
 #' @param well_name character the well_name to add to the file
 #'
 #' @return the dataset
+#' @import fst
 #'
 #' @export
 #===============================================================================
@@ -16,6 +17,7 @@ fst_from_rbr <- function(db_name, well_name){
 
   datetime <- NULL
   channel01 <- NULL
+  name <- NULL
 
   dat <- read_rbr(db_name)[, list(datetime, val = channel01)]
 
