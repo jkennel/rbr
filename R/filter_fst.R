@@ -17,8 +17,8 @@
 filter_fst <- function(db_name, start_date, end_date){
   datetime <- NULL
 
-  end <- as.numeric(end_date)
-  start <- as.numeric(start_date)
+  end <- as.numeric(anytime::anytime(end_date))
+  start <- as.numeric(anytime::anytime(start_date))
 
   # get first records
   wl <- fst::read.fst(db_name,
