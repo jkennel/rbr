@@ -12,8 +12,6 @@ filter_fst(db_name, start_date, end_date)
 \item{start_date}{character date}
 
 \item{end_date}{character date}
-
-\item{tz}{the timezone of the input data file}
 }
 \value{
 data.table of results

@@ -8,7 +8,6 @@
 #' @param db_name the path to the rbr database ( rsk )
 #' @param start_date character date
 #' @param end_date character date
-#' @param tz the timezone of the input data file
 #'
 #' @return data.table of results
 #'
@@ -59,7 +58,5 @@ filter_fst <- function(db_name, start_date, end_date){
   dat <- dat[, datetime := anytime::anytime(datetime, asUTC = TRUE)]
   print('here')
   return(dat)
-
-
 
 }
