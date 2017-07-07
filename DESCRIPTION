@@ -11,7 +11,8 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Depends:
-    data.table
+    data.table,
+    fst
 Imports:
     dplyr,
     tools,
@@ -21,4 +22,4 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

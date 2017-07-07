@@ -24,4 +24,3 @@ Import sqlite data to R
 \author{
 Jonathan Kennel \email{jkennel@uoguelph.ca}
 }
-
