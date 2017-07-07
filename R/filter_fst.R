@@ -48,7 +48,8 @@ filter_fst <- function(db_name, start_date, end_date){
   dat <- tryCatch(fst::read.fst(db_name,
                                 as.data.table = TRUE,
                                 from = ind_start + 1,
-                                to = ind_end + 1))
+                                to = ind_end + 1),
+                                error = function(e) e)
 
   if (inherits(dat, "error")) {
     print('no records available between start and end date times')
