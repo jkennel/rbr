@@ -28,6 +28,11 @@ filter_fst <- function(db_name, start_date, end_date, well_names = NA){
                       'datetime',
                       from = 1, to = 2)
 
+  if (wl$name[1] %in% well_names) {
+    print('no records available between start and end date times')
+    return()
+  }
+
   # calculate the time interval
   time_difference <- diff(wl$datetime)
   wl_start <- wl$datetime[1]
