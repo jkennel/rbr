@@ -4,7 +4,7 @@
 \alias{filter_fst}
 \title{Obtain data from rbr sqlite3 database}
 \usage{
-filter_fst(db_name, start_date, end_date)
+filter_fst(db_name, start_date, end_date, well_names = NA)
 }
 \arguments{
 \item{db_name}{the path to the rbr database ( rsk )}
@@ -12,6 +12,8 @@ filter_fst(db_name, start_date, end_date)
 \item{start_date}{character date}
 
 \item{end_date}{character date}
+
+\item{well_names}{character specific wells to subset}
 }
 \value{
 data.table of results

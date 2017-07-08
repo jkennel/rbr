@@ -8,13 +8,16 @@
 #' @param db_name the path to the rbr database ( rsk )
 #' @param start_date character date
 #' @param end_date character date
+#' @param well_names character specific wells to subset
 #'
 #' @return data.table of results
 #'
 #' @export
 #===============================================================================
-filter_fst <- function(db_name, start_date, end_date){
+filter_fst <- function(db_name, start_date, end_date, well_names = NA){
+
   datetime <- NULL
+  name <- NULL
 
   end <- as.numeric(anytime::anytime(end_date, asUTC = TRUE))
   start <- as.numeric(anytime::anytime(start_date, asUTC = TRUE))
@@ -57,6 +60,11 @@ filter_fst <- function(db_name, start_date, end_date){
   }
 
   dat <- dat[, datetime := anytime::anytime(datetime, asUTC = TRUE)]
+
+  if (!is.na(well_names)) {
+    dat <- dat[name %in% well_names]
+  }
+
   print('here')
   return(dat)
 
