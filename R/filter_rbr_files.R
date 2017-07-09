@@ -1,4 +1,3 @@
-
 #===============================================================================
 #' @title obtain data from folder containing rbr sqlite3 databases
 #'
@@ -15,7 +14,7 @@
 #'
 #' @export
 #===============================================================================
-filter_rbr_files <- function( files, start_date, end_date, tz = 'UTC' ) {
+filter_rbr_files <- function(files, start_date, end_date, tz = 'UTC') {
 
   # hack for 'global variables NOTE
   name <- NULL

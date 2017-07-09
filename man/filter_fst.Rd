@@ -2,7 +2,7 @@
 % Please edit documentation in R/filter_fst.R
 \name{filter_fst}
 \alias{filter_fst}
-\title{Obtain data from rbr sqlite3 database}
+\title{Obtain data from fst file subset by dates and well name}
 \usage{
 filter_fst(db_name, start_date, end_date, well_names = NA)
 }
@@ -19,7 +19,7 @@ filter_fst(db_name, start_date, end_date, well_names = NA)
 data.table of results
 }
 \description{
-Import sqlite data to R
+Import fst data to R
 }
 \author{
 Jonathan Kennel \email{jkennel@uoguelph.ca}

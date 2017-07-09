@@ -1,7 +1,7 @@
 #===============================================================================
-#' @title Obtain data from rbr sqlite3 database
+#' @title Obtain data from fst file subset by dates and well name
 #'
-#' @description Import sqlite data to R
+#' @description Import fst data to R
 #'
 #' @author Jonathan Kennel \email{jkennel@uoguelph.ca}
 #'
