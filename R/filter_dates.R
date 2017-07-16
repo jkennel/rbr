@@ -18,3 +18,25 @@ filter_dates <- function(dat, filt){
   dat[!J(filt), on = .(name, datetime >= start, datetime <= end)]
 
 }
+
+
+
+#===============================================================================
+#' @title shift_values_range
+#'
+#' @description shift values for specific regions
+#'
+#' @author Jonathan Kennel \email{jkennel@uoguelph.ca}
+#'
+#' @param dat data.table to filter (name, datetime)
+#' @param shift data.table of filter start and end times (start, end)
+#'
+#' @return data.table with shifted values
+#'
+#' @export
+#===============================================================================
+shift_values_range <- function(dat, shift){
+
+  dat[J(shift), on = .(name, datetime >= start, datetime <= end), val := val + shift]
+
+}
