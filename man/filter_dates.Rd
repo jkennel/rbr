@@ -4,12 +4,14 @@
 \alias{filter_dates}
 \title{filter_dates}
 \usage{
-filter_dates(dat, filt)
+filter_dates(dat, filt, keep = FALSE)
 }
 \arguments{
 \item{dat}{data.table to filter (name, datetime)}
 
 \item{filt}{data.table of filter start and end times (start, end)}
+
+\item{keep}{include or exclude the subsets}
 }
 \value{
 filtered data.table

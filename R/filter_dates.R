@@ -8,14 +8,23 @@
 #'
 #' @param dat data.table to filter (name, datetime)
 #' @param filt data.table of filter start and end times (start, end)
+#' @param keep include or exclude the subsets
 #'
 #' @return filtered data.table
 #'
 #' @export
 #===============================================================================
-filter_dates <- function(dat, filt){
+filter_dates <- function(dat, filt, keep = FALSE){
 
-  dat[!J(filt), on = .(name, datetime >= start, datetime <= end)]
+  if (keep) {
+
+    return(dat[J(filt), on = .(name, datetime >= start, datetime <= end)])
+
+  } else {
+
+    return(dat[!J(filt), on = .(name, datetime >= start, datetime <= end)])
+
+  }
 
 }
 
