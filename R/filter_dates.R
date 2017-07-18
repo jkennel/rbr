@@ -18,7 +18,7 @@ filter_dates <- function(dat, filt, keep = FALSE){
 
   if (keep) {
 
-    return(dat[J(filt), on = .(name, datetime >= start, datetime <= end)])
+    return(dat[J(filt), on = .(name, datetime >= start, datetime <= end)], list(name, x.datetime, val))
 
   } else {
 
