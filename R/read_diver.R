@@ -34,6 +34,7 @@ read_diver <- function(db_name, tz = 'UTC') {
     wl[, datetime := anytime::anytime(datetime + shift, asUTC = TRUE)]
     setkey(wl, datetime)
     print(shift)
+    print(tz)
   }
 
   wl[, date := NULL]
