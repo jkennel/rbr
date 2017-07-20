@@ -31,7 +31,7 @@ read_diver <- function(db_name, tz = 'UTC') {
     shift <- difftime(as.POSIXct('1970-01-01', tz = tz),
                       as.POSIXct('1970-01-01', tz = 'UTC'),
                       units = 'secs')
-    wl[, datetime := anytime::anytime(datetime + shift, asUTC = TRUE)]
+    wl[, datetime := anytime::anytime(datetime + shift, tz = 'UTC', asUTC = TRUE)]
     setkey(wl, datetime)
     print(shift)
     print(tz)
