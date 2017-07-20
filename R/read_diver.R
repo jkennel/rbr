@@ -24,10 +24,9 @@ read_diver <- function(db_name, tz = 'UTC') {
   wl[, wl := as.numeric(wl)]
   wl[, temperature := as.numeric(temperature)]
 
-  wl[, datetime := anytime::anytime(paste(date, time))]
+  wl[, datetime := anytime::anytime(paste(date, time), tz = 'UTC', asUTC = TRUE)]
 
   if (nrow(wl) > 0) {
-    date_1 <- anytime::anytime(wl$datetime[1], asUTC = TRUE)
     shift <- difftime(as.POSIXct('1970-01-01', tz = tz),
                       as.POSIXct('1970-01-01', tz = 'UTC'),
                       units = 'secs')
