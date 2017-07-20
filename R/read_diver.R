@@ -27,16 +27,15 @@ read_diver <- function(db_name, tz = 'UTC') {
   wl[, datetime := anytime::anytime(paste(date, time))]
 
   if (nrow(wl) > 0) {
-    date_1 <- anytime::anytime(wl$datetime[1], asUTC = TRUE )
+    date_1 <- anytime::anytime(wl$datetime[1], asUTC = TRUE)
     shift <- difftime(as.POSIXct('1970-01-01', tz = tz),
                       as.POSIXct('1970-01-01', tz = 'UTC'),
                       units = 'secs')
     wl[, datetime := anytime::anytime(datetime + shift, asUTC = TRUE)]
     setkey(wl, datetime)
+    print(shift)
   }
 
   wl[, date := NULL]
   wl[, time := NULL]
-
-
 }
