@@ -21,6 +21,8 @@ read_diver <- function(db_name, tz = 'UTC') {
   setnames(wl, c('date', 'time', 'wl', 'temperature'))
 
   wl[, name := name]
+  wl[, wl := as.numeric(wl)]
+  wl[, temperature := as.numeric(temperature)]
 
   wl[, datetime := anytime::anytime(paste(date, time))]
 
