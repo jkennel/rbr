@@ -34,20 +34,20 @@ read_rbr_db <- function(db_name, sql_text, tz = 'UTC') {
 
   # remove the datasetID column if it exists
   fields <- dplyr::tbl_vars(dt)
-  if("datasetID" %in% fields) dt %>% select(-datasetID)
+  if ("datasetID" %in% fields) dt %>% select(-datasetID)
 
   # read data into data.table and set key
-  dt <- data.table::setDT( collect( dt, n = Inf ), key = datetime  )
+  dt <- data.table::setDT( collect( dt, n = Inf ), key = datetime )
 
   # make sure it has the correct timezone
   # only single shift is allowed for all times
   if (nrow(dt) > 0){
-    date_1 <- anytime::anytime(dt$datetime[1], asUTC = TRUE )
-    shift <- difftime(as.POSIXct('1970-01-01', tz = tz),
-                      as.POSIXct('1970-01-01', tz = 'UTC'),
-                      units = 'secs')
+    date_1 <- anytime::anytime( dt$datetime[1], asUTC = TRUE )
+    shift <- difftime( as.POSIXct('1970-01-01', tz = tz ),
+                       as.POSIXct('1970-01-01', tz = 'UTC' ),
+                       units = 'secs' )
     dt[, datetime := anytime::anytime( datetime + shift, asUTC = TRUE )]
-    setkey(dt, datetime)
+    setkey( dt, datetime )
   }
 
   return( dt )
