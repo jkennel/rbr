@@ -27,7 +27,7 @@ fst_from_rbr <- function(db_name, well_name){
 
   setkey(dat, datetime)
 
-  fst::write.fst(dat,
+  fst::write_fst(dat,
             paste0('/home/jkennel/Documents/ssfl/data/fst/', db_name, '.fst'))
 
   invisible(dat)
