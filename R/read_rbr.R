@@ -11,6 +11,7 @@
 #' @return data.table of results
 #'
 #' @export
+#'
 #===============================================================================
 read_rbr <- function( db_name, tz='UTC' ) {
 

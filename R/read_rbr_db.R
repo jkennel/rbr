@@ -12,6 +12,7 @@
 #' @return data.table of results
 #'
 #' @export
+#'
 #===============================================================================
 read_rbr_db <- function(db_name, sql_text, tz = 'UTC') {
 
@@ -22,7 +23,13 @@ read_rbr_db <- function(db_name, sql_text, tz = 'UTC') {
 
   # connect to sqlite database
   db <- dplyr::src_sqlite( db_name )
-  #src_tbls( db )
+
+  tbls <- dplyr::src_tbls(db)
+
+  if (!'name' %in% tbls) {
+    warning(paste(db_name, 'does not have a table called "data".  Check .rsk file.'))
+  } else {
+
 
   # get transducer and unit info
   # unit <-  dplyr::collect( tbl( db, sql( "SELECT units FROM channels" ) ) )[[1]]
@@ -49,8 +56,8 @@ read_rbr_db <- function(db_name, sql_text, tz = 'UTC') {
     dt[, datetime := anytime::anytime( datetime + shift, asUTC = TRUE )]
     setkey( dt, datetime )
   }
-
-  return( dt )
+    return( dt )
+  }
 
 }
 
