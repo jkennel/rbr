@@ -18,7 +18,7 @@
 filter_rbr_folder <- function( folder_path, start_date, end_date, tz='UTC', ... ) {
 
   # get the names .rsk files in folder
-  files <- list.files( folder_path, full.names=TRUE, pattern="*.rsk", ... )
+  files <- list.files( folder_path, full.names=TRUE, pattern="*\\.rsk$", ... )
 
   return( filter_rbr_files(files, start_date, end_date, tz=tz) )
 
