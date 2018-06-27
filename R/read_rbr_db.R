@@ -33,8 +33,8 @@ read_rbr_db <- function(db_name, sql_text, tz = 'UTC') {
 
 
     # get transducer and unit info
-    # unit <-  dplyr::collect( tbl( db, sql( "SELECT units FROM channels" ) ) )[[1]]
-    # id   <-  dplyr::collect( tbl( db, sql( "SELECT serialID FROM instruments" ) ) )[[1]]
+    # unit <-  dplyr::collect( dplyr::tbl( db, sql( "SELECT units FROM channels" ) ) )[[1]]
+    # id   <-  dplyr::collect( dplyr::tbl( db, sql( "SELECT serialID FROM instruments" ) ) )[[1]]
 
     # time is in milliseconds
     dt <- dplyr::tbl( db, dplyr::sql(sql_text) )   %>%
