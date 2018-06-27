@@ -7,12 +7,12 @@
 #'
 #' @param db_name character the path to the rbr database ( rsk )
 #'
-#' @return data.table of results
+#' @return list of results
 #'
 #' @export
 #'
 #===============================================================================
-rbr_info <- function(db_name, sql_text, tz = 'UTC') {
+rbr_info <- function(db_name) {
 
   # connect to sqlite database
   db <- dplyr::src_sqlite( db_name )
@@ -45,10 +45,10 @@ rbr_info <- function(db_name, sql_text, tz = 'UTC') {
   calibration_info <- calibrations
   })
 
-  tibble(name = db_name,
-         channel_info = list(channel_info),
-         deployment_info = list(deployment_info),
-         calibration_info = list(calibration_info))
+  list(name = db_name,
+         channel_info = channel_info,
+         deployment_info = deployment_info,
+         calibration_info = calibration_info)
 
 
 }

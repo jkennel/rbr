@@ -4,13 +4,13 @@
 \alias{rbr_info}
 \title{obtain meta data from rbr sqlite3 database}
 \usage{
-rbr_info(db_name, sql_text, tz = "UTC")
+rbr_info(db_name)
 }
 \arguments{
 \item{db_name}{character the path to the rbr database ( rsk )}
 }
 \value{
-data.table of results
+list of results
 }
 \description{
 get supplementary info from .rsk file
