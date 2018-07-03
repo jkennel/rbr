@@ -22,9 +22,15 @@ read_rbr_db <- function(db_name, sql_text, tz = 'UTC') {
   datasetID <- NULL
 
   # connect to sqlite database
-  db <- dplyr::src_sqlite( db_name )
+  db <- dplyr::src_sqlite(db_name)
 
+  # get column names
   nm_tbl <- dplyr::src_tbls(db)
+
+  if (!any(grepl('channels', nm_tbl))) {
+    warning(paste(db_name, 'does not have a table called "channels".  Check .rsk file.'))
+    return(NULL)
+  }
 
   if (!any(grepl('data', nm_tbl))) {
     warning(paste(db_name, 'does not have a table called "data".  Check .rsk file.'))
@@ -37,30 +43,31 @@ read_rbr_db <- function(db_name, sql_text, tz = 'UTC') {
     # id   <-  dplyr::collect( dplyr::tbl( db, sql( "SELECT serialID FROM instruments" ) ) )[[1]]
 
     # time is in milliseconds
-    dt <- dplyr::tbl( db, dplyr::sql(sql_text) )   %>%
-      select( -tstamp )
+    dt <- dplyr::tbl(db, dplyr::sql(sql_text))   %>%
+      select(-tstamp)
 
     # remove the datasetID column if it exists
     fields <- dplyr::tbl_vars(dt)
     if ("datasetID" %in% fields) dt %>% select(-datasetID)
 
     # read data into data.table and set key
-    dt <- data.table::setDT( collect( dt, n = Inf ), key = datetime )
+    dt <- data.table::setDT(collect(dt, n = Inf), key = datetime)
 
     # make sure it has the correct timezone
     # only single shift is allowed for all times
     if (nrow(dt) > 0) {
-      date_1 <- anytime::anytime( dt$datetime[1], asUTC = TRUE )
-      shift <- difftime( as.POSIXct('1970-01-01', tz = tz ),
-                         as.POSIXct('1970-01-01', tz = 'UTC' ),
-                         units = 'secs' )
-      dt[, datetime := anytime::anytime( datetime + shift, asUTC = TRUE )]
-      setkey( dt, datetime )
-      return( dt )
+      date_1 <- anytime::anytime(dt$datetime[1], asUTC = TRUE)
+      shift  <- difftime(as.POSIXct('1970-01-01', tz = tz),
+                         as.POSIXct('1970-01-01', tz = 'UTC'),
+                         units = 'secs')
+      dt[, datetime := anytime::anytime(datetime + shift, asUTC = TRUE)]
+      setnames(dt, c('datetime', channels))
+      setkey(dt, datetime)
+
+      return(melt(dt, id.vars = 'datetime'))
     } else {
       return(NULL)
     }
   }
-
 }
 
