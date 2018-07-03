@@ -8,7 +8,7 @@
 #' @param db_name the path to the rbr database ( rsk )
 #' @param start_date character date
 #' @param end_date character date
-#' @param tz the timezone of the input data file
+#' @param use_rbr_tz boolean use time zone information from the rbr file?
 #'
 #' @return data.table of results
 #' @import data.table
@@ -20,7 +20,7 @@
 #' @importFrom dplyr tbl
 #' @export
 #===============================================================================
-filter_rbr <- function( db_name, start_date, end_date, tz='UTC' ) {
+filter_rbr <- function( db_name, start_date, end_date, use_rbr_tz = TRUE ) {
 
   # convert text to POSIXct
   start_date <- anytime::anytime(start_date, asUTC = TRUE)
@@ -30,6 +30,6 @@ filter_rbr <- function( db_name, start_date, end_date, tz='UTC' ) {
                      as.numeric( start_date )*1000.0, " AND tstamp <= ",
                      as.numeric( end_date )*1000.0 )
 
-  return( read_rbr_db( db_name, sql_text, tz ) )
+  return( read_rbr_db( db_name, sql_text, use_rbr_tz ) )
 
 }

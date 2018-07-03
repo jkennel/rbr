@@ -6,19 +6,19 @@
 #' @author Jonathan Kennel \email{jkennel@uoguelph.ca}
 #'
 #' @param files the path to the rbr database ( rsk )
-#' @param tz the timezone of the input data file
+#' @param use_rbr_tz boolean use time zone information from the rbr file?
 #'
 #' @return data.table of results
 #'
 #' @export
 #===============================================================================
-read_rbr_files <- function( files, tz = 'UTC') {
+read_rbr_files <- function( files, use_rbr_tz = TRUE) {
 
   # hack for 'global variables' NOTE
   name <- NULL
 
   dtl <- lapply( files, function(f){
-    dt <- read_rbr(f, tz = tz)
+    dt <- read_rbr(f, use_rbr_tz = use_rbr_tz)
     dt[, name := f]
     return(dt)
   } )

@@ -4,14 +4,14 @@
 \alias{read_rbr_db}
 \title{obtain data from rbr sqlite3 database}
 \usage{
-read_rbr_db(db_name, sql_text, tz = "UTC")
+read_rbr_db(db_name, sql_text, use_rbr_tz = TRUE)
 }
 \arguments{
 \item{db_name}{character the path to the rbr database ( rsk )}
 
 \item{sql_text}{character sql string to execute on connection for filtering}
 
-\item{tz}{character the timezone of the input data file}
+\item{use_rbr_tz}{boolean use time zone information from the rbr file?}
 }
 \value{
 data.table of results

@@ -13,7 +13,7 @@ filter_rbr_files(files, start_date, end_date, tz = "UTC")
 
 \item{end_date}{character date}
 
-\item{tz}{the timezone of the input data file}
+\item{use_rbr_tz}{boolean use time zone information from the rbr file?}
 }
 \value{
 data.table of results

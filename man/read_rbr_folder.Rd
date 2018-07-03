@@ -4,12 +4,12 @@
 \alias{read_rbr_folder}
 \title{obtain data from folder containing rbr sqlite3 databases}
 \usage{
-read_rbr_folder(folder_path, tz = "UTC", ...)
+read_rbr_folder(folder_path, use_rbr_tz = TRUE, ...)
 }
 \arguments{
 \item{folder_path}{the path to the rbr database ( rsk )}
 
-\item{tz}{the timezone of the input data file}
+\item{use_rbr_tz}{boolean use time zone information from the rbr file?}
 
 \item{...}{arguments to pass to list.files}
 }
