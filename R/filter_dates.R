@@ -9,20 +9,32 @@
 #' @param dat data.table to filter (name, datetime)
 #' @param filt data.table of filter start and end times (start, end)
 #' @param keep include or exclude the subsets
+#' @param which return the indices that match
 #'
 #' @return filtered data.table
 #'
 #' @export
 #===============================================================================
-filter_dates <- function(dat, filt, keep = FALSE){
+filter_dates <- function(dat, filt, keep = FALSE, which = FALSE){
+
+  setkey(filt, name, start, end)
+  inds <- foverlaps(dat[, list(name, start=datetime, end=datetime)],
+                    filt,
+                    type="within", which=TRUE)
+
+  if (which) {
+
+    return(inds$yid)
+
+  }
 
   if (keep) {
 
-    return(dat[J(filt), on = .(name, datetime >= start, datetime <= end)], list(name, x.datetime, val))
+    return(dat[!is.na(inds$yid)])
 
   } else {
 
-    return(dat[!J(filt), on = .(name, datetime >= start, datetime <= end)])
+    return(dat[is.na(inds$yid)])
 
   }
 
