@@ -51,10 +51,10 @@ read_rbr_db <- function(db_name, sql_text, use_rbr_tz = TRUE) {
         warning(paste0('Time zone offset from UTC is NA, using 0'))
         tz_offset <- 0
       }
-    } else {
+    }
+  } else {
       warning(paste0('Time zone offset from UTC is missing, using 0'))
       tz_offset <- 0
-    }
   }
 
   # check if any data is present
