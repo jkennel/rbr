@@ -4,7 +4,7 @@
 \alias{filter_dates}
 \title{filter_dates}
 \usage{
-filter_dates(dat, filt, keep = FALSE)
+filter_dates(dat, filt, keep = FALSE, which = FALSE)
 }
 \arguments{
 \item{dat}{data.table to filter (name, datetime)}
@@ -12,6 +12,8 @@ filter_dates(dat, filt, keep = FALSE)
 \item{filt}{data.table of filter start and end times (start, end)}
 
 \item{keep}{include or exclude the subsets}
+
+\item{which}{return the indices that match}
 }
 \value{
 filtered data.table
