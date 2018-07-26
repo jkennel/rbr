@@ -16,6 +16,7 @@
 #===============================================================================
 read_rbr_db <- function(db_name, sql_text, use_rbr_tz = TRUE) {
 
+  # .rsk stores date as numeric and is referenced to UTC
   # hack for 'global variables NOTE
   tstamp <- NULL
   datetime <- NULL
@@ -38,7 +39,8 @@ read_rbr_db <- function(db_name, sql_text, use_rbr_tz = TRUE) {
     if (any(grepl('parameterKeys', nm_tbl))) {
       tz_offset <- data.table(collect(tbl(db, 'parameterKeys')))
       tz_offset <- tz_offset[key == 'OFFSET_FROM_UTC']$value
-      tz_offset <- as.numeric(tz_offset) * 1000 * 3600
+      print(tz_offset)
+      tz_offset <- as.numeric(tz_offset) * 3600
       if(is.na(tz_offset)) {
         warning(paste0('Time zone offset from UTC is NA, using 0'))
         tz_offset <- 0
@@ -46,7 +48,7 @@ read_rbr_db <- function(db_name, sql_text, use_rbr_tz = TRUE) {
     } else if (any(grepl('parameters', nm_tbl))) {
       tz_offset <- data.table(collect(tbl(db, 'parameters')))
       tz_offset <- tz_offset$offsetfromutc
-      tz_offset <- as.numeric(tz_offset) * 1000 * 3600
+      tz_offset <- as.numeric(tz_offset) * 3600
       if(is.na(tz_offset)) {
         warning(paste0('Time zone offset from UTC is NA, using 0'))
         tz_offset <- 0
@@ -77,11 +79,16 @@ read_rbr_db <- function(db_name, sql_text, use_rbr_tz = TRUE) {
     # make sure it has the correct timezone
     # only single shift is allowed for all times
     if (nrow(dt) > 0) {
+      if(tz_offset != 0) {
+        tz_text <- paste0('UTC', tz_offset / 3600, 'h')
+      } else {
+        tz_text <- 'UTC'
+      }
       date_1 <- anytime::anytime(dt$datetime[1], asUTC = TRUE)
       dt[, datetime := anytime::anytime(datetime + tz_offset, asUTC = TRUE)]
       setnames(dt, c('datetime', channels))
       setkey(dt, datetime)
-
+      attr(dt$datetime, 'tzone') <- tz_text
       return(melt(dt, id.vars = 'datetime'))
     } else {
       return(NULL)

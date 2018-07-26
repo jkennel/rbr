@@ -1,4 +1,3 @@
-
 #===============================================================================
 #' @title filter_dates
 #'
@@ -10,17 +9,42 @@
 #' @param filt data.table of filter start and end times (start, end)
 #' @param keep include or exclude the subsets
 #' @param which return the indices that match
+#' @param include_filt_cols include the columns in the filter table
 #'
 #' @return filtered data.table
 #'
 #' @export
 #===============================================================================
-filter_dates <- function(dat, filt, keep = FALSE, which = FALSE){
+filter_dates <- function(dat, filt, keep = FALSE, which = FALSE,
+                         include_filt_cols = FALSE){
 
-  setkey(filt, name, start, end)
-  inds <- foverlaps(dat[, list(name, start=datetime, end=datetime)],
-                    filt,
-                    type="within", which=TRUE)
+  if (!'name' %in% names(filt) |
+      !'name' %in% names(dat)) {
+
+
+    setkey(filt, start, end)
+    filt[, id := 1:nrow(filt)]
+
+    if (include_filt_cols) {
+      inds <- foverlaps(dat[, list(start=datetime, end=datetime)],
+                        filt,
+                        type="within", which=TRUE)
+
+      out <- dat[!is.na(inds$yid)][, id := na.omit(inds$yid)]
+      setkey(out, id)
+      setkey(filt, id)
+      return(out[filt[, -c('start', 'end'), with = FALSE]])
+    }
+    inds <- foverlaps(dat[, list(start=datetime, end=datetime)],
+                      filt,
+                      type="within", which=TRUE)
+  } else {
+
+    setkey(filt, name, start, end)
+    inds <- foverlaps(dat[, list(name, start=datetime, end=datetime)],
+                      filt,
+                      type="within", which=TRUE)
+  }
 
   if (which) {
 
@@ -40,6 +64,10 @@ filter_dates <- function(dat, filt, keep = FALSE, which = FALSE){
 
 }
 
+# compare_manual <- function(dat, blended, depths) {
+#   comp <- filter_dates(dat, blended, keep = TRUE, include_filt_cols = TRUE)
+#   comp <- comp[depths]
+# }
 
 
 #===============================================================================
