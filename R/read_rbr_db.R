@@ -91,6 +91,7 @@ read_rbr_db <- function(db_name, sql_text, use_rbr_tz = TRUE) {
       attr(dt$datetime, 'tzone') <- tz_text
       return(melt(dt, id.vars = 'datetime'))
     } else {
+      warning(paste(db_name, 'returns no rows for the given query'))
       return(NULL)
     }
   }
