@@ -1,6 +1,6 @@
 ---
 title: "Compare pressures to depth to water measurement"
-author: "Jonathan Kennel, Beth Parker"
+author: "Jonathan Kennel, Sam Jacobson, Beth Parker"
 date: "August 10, 2018"
 output: html_document
 ---
