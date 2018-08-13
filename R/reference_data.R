@@ -52,11 +52,8 @@ reference_data <- function(data_depth,
   port <- port[grepl('pres', variable)]
 
   # Unit conversion
-  baro[, baro := ud.convert(ud.convert(baro, 'dbar', 'cmH2O'), 'cm', elev_unit)]
-
-
-  # Unit conversion
-  port[, value := ud.convert(ud.convert(value, 'dbar', 'cmH2O'), 'cm', elev_unit)]
+  baro[, baro := measurements::conv_unit(measurements::conv_unit(baro, 'dbar', 'cmH2O'), 'cm', elev_unit)]
+  port[, value := measurements::conv_unit(measurements::conv_unit(value, 'dbar', 'cmH2O'), 'cm', elev_unit)]
 
   # Join baro and port data
   port <- port[baro[, list(datetime, baro)], on = 'datetime', nomatch = 0L]

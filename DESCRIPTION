@@ -13,7 +13,7 @@ LazyData: true
 Depends:
     data.table,
     fst,
-    udunits2
+    measurements
 Imports:
     dplyr,
     tools,
