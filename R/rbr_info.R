@@ -15,7 +15,7 @@
 rbr_info <- function(db_name) {
 
   # connect to sqlite database
-  db <- dplyr::src_sqlite( db_name )
+  db <- dplyr::src_sqlite(db_name)
 
   #nm_tbl <- dplyr::src_tbls(db)
 

@@ -21,7 +21,6 @@ filter_dates <- function(dat, filt, keep = FALSE, which = FALSE,
   if (!'name' %in% names(filt) |
       !'name' %in% names(dat)) {
 
-
     setkey(filt, start, end)
     filt[, id := 1:nrow(filt)]
 
@@ -33,7 +32,7 @@ filter_dates <- function(dat, filt, keep = FALSE, which = FALSE,
       out <- dat[!is.na(inds$yid)][, id := na.omit(inds$yid)]
       setkey(out, id)
       setkey(filt, id)
-      return(out[filt[, -c('start', 'end'), with = FALSE]])
+      return(out[filt[, -c('start', 'end'), with = FALSE], nomatch = 0L])
     }
     inds <- foverlaps(dat[, list(start=datetime, end=datetime)],
                       filt,
@@ -43,7 +42,7 @@ filter_dates <- function(dat, filt, keep = FALSE, which = FALSE,
     setkey(filt, name, start, end)
     inds <- foverlaps(dat[, list(name, start=datetime, end=datetime)],
                       filt,
-                      type="within", which=TRUE)
+                      type="within", which = TRUE)
   }
 
   if (which) {

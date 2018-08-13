@@ -1,0 +1,144 @@
+---
+title: "Compare pressures to depth to water measurement"
+author: "Jonathan Kennel, Beth Parker"
+date: "August 10, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(plotly)
+library(rbr)
+library(DT)
+```
+
+## Meta data
+
+Meta data is a very important component of the comparison process.  Depth of the transducer, the elevation of the reference point, the units for measurements, type of measurement (barometric pressure, port pressure), file locations, and well location info.  While these are important values some may not be necessary for your particular application or known early in a project. Typically, these would be stored in a couple of files. Also, when creating these files we want to use consistent and not complicated field names across files.  This means try to avoid spaces, special characters, and capitilization changes.
+
+
+# Well meta table
+
+```{r meta2, echo = FALSE}
+
+well_meta <- fread('/media/kennel/Data/phd/personnel/pat/well_meta.csv')
+print(well_meta)
+
+```
+
+# Port meta table
+
+```{r meta, echo = FALSE}
+well_name <- 'UW-1'
+
+port_meta <- fread('/media/kennel/Data/phd/personnel/pat/transducer_depth_path.csv')
+print(head(port_meta))
+
+```
+
+
+## Reading in rbr data
+
+![](/media/kennel/Data/phd/r_packages/rbr/non_vented.svg){width=35%}
+
+
+The purpose of this vignette is to compare the transducer values to the rbr pressure measurements. This is a straight-forward arithmetic calculation that is aided by a figure.
+
+$d_{water} = d_{trans} - (P^{port}_t - P^{atm}_t)$
+
+- $d_{water}$ = depth to water
+- $d_{trans}$ = depth to transducer
+- $P^{port}_t$ = port pressure at time t
+- $P^{atm}_t$ = depth to water
+
+
+
+```{r pressure, echo=TRUE, eval = TRUE, warning = FALSE}
+
+port <- reference_data(port_meta,
+                       id_col = 'id', 
+                       path_col = 'path', 
+                       depth_col = 'depth', 
+                       elev_unit = well_meta[well == well_name]$elev_unit,
+                       start = '2014-12-08 12:00:00', 
+                       end = '2014-12-08 18:00:00',
+                       ref_elev = well_meta[well == well_name]$ref_elev)
+print(port)
+
+```
+
+
+## Compare to manual measurement
+
+When were manual water level measurements taken?  It may be useful to have the measurements at the start and the end of the test.  In this example we will only use the measurement at the start of the test, but to add additional comparison periods you can use addional rows in your blended data.table (you will need the corresponding dates in your port dataset for matches to be found).
+
+```{r blended_comp, echo=TRUE, warning = FALSE}
+
+# read manual water level file
+blended <- fread('/media/kennel/Data/phd/personnel/pat/blended_open_hole.csv')
+
+# convert to datetime
+blended[, start := as.POSIXct(start, tz = 'UTC')]
+blended[, end := as.POSIXct(end, tz = 'UTC')]
+
+# select data period from port dataset
+comp <- filter_dates(port, blended, keep = TRUE, include_filt_cols = TRUE)
+
+comp
+```
+
+### Calculate the average difference
+
+It is important to see how different the range of data for the period compares.  Here we clearly can see P1_19 is different from the rest, and likely is malfunctioning.
+
+```{r diff, echo=TRUE, warning = FALSE}
+
+diffs <- comp[, list(mean_diff = round(mean(meas_wl - dtw, na.rm = TRUE), 3),
+                     max_diff = round(max(meas_wl - dtw, na.rm = TRUE), 3),
+                     min_diff = round(min(meas_wl - dtw, na.rm = TRUE), 3),
+                     range = round(diff(range(meas_wl-dtw)), 3)),
+              by = list(name, depth, id)]
+
+print(diffs)
+```
+
+
+
+## Putting it all together
+
+```{r together, echo=TRUE, warning = FALSE}
+
+library(rbr)
+library(data.table)
+
+# read in meta data
+well_name <- 'UW-1'
+well_meta <- fread('/media/kennel/Data/phd/personnel/pat/well_meta.csv')
+port_meta <- fread('/media/kennel/Data/phd/personnel/pat/transducer_depth_path.csv')
+
+# convert data to depth to water/elevation
+port <- reference_data(port_meta,
+                       id_col = 'id', 
+                       path_col = 'path', 
+                       depth_col = 'depth', 
+                       elev_unit = well_meta[well == well_name]$elev_unit,
+                       start = '2014-12-08 12:00:00', 
+                       end = '2014-12-08 18:00:00',
+                       ref_elev = well_meta[well == well_name]$ref_elev)
+
+# read manual water level file
+blended <- fread('/media/kennel/Data/phd/personnel/pat/blended_open_hole.csv')
+
+# convert to datetime
+blended[, start := as.POSIXct(start, tz = 'UTC')]
+blended[, end := as.POSIXct(end, tz = 'UTC')]
+
+# select data period from port dataset
+comp <- filter_dates(port, blended, keep = TRUE, include_filt_cols = TRUE)
+
+# calculate differences for each port
+diffs <- comp[, list(mean_diff = round(mean(meas_wl - dtw, na.rm = TRUE), 3),
+                     max_diff = round(max(meas_wl - dtw, na.rm = TRUE), 3),
+                     min_diff = round(min(meas_wl - dtw, na.rm = TRUE), 3),
+                     range = round(diff(range(meas_wl-dtw)), 3)),
+              by = list(name, depth, id)]
