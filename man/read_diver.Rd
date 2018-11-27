@@ -9,7 +9,7 @@ read_diver(db_name, tz = "UTC")
 \arguments{
 \item{db_name}{character the path to the rbr database ( rsk )}
 
-\item{use_rbr_tz}{boolean use time zone information from the rbr file?}
+\item{tz}{character the time zone information}
 }
 \value{
 data.table of results

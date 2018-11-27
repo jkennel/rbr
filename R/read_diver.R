@@ -6,7 +6,7 @@
 #' @author Jonathan Kennel \email{jkennel@uoguelph.ca}
 #'
 #' @param db_name character the path to the rbr database ( rsk )
-#' @param use_rbr_tz boolean use time zone information from the rbr file?
+#' @param tz character the time zone information
 #'
 #' @return data.table of results
 #'

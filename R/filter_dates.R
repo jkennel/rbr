@@ -85,6 +85,14 @@ filter_dates <- function(dat, filt, keep = FALSE, which = FALSE,
 #===============================================================================
 shift_values_range <- function(dat, shift){
 
+  # hack for 'global variables' NOTE
+  name = NULL
+  datetime = NULL
+  start = NULL
+  end = NULL
+  val = NULL
+
+
   dat[J(shift), on = .(name, datetime >= start, datetime <= end), val := val + shift]
 
 }

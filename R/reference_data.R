@@ -38,7 +38,8 @@ reference_data <- function(data_depth,
 
   # Get baro data
   baro <- filter_rbr_files(dat[file.exists(path) & baro]$path,
-                           start = start_date, end = end_date,
+                           start_date = start_date,
+                           end_date = end_date,
                            use_rbr_tz = FALSE)
   baro <- baro[grepl('pres', variable)]
 
@@ -47,7 +48,8 @@ reference_data <- function(data_depth,
 
   # Get pressure data
   port <- filter_rbr_files(dat[file.exists(path) & !baro]$path,
-                           start = start_date, end = end_date,
+                           start_date = start_date,
+                           end_date = end_date,
                            use_rbr_tz = FALSE)
   port <- port[grepl('pres', variable)]
 
