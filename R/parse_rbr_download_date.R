@@ -14,7 +14,7 @@
 parse_rbr_download_date <- function(fn, tz = 'UTC') {
 
   ind <- regexpr('\\d{8}\\_\\d{4}', fn)
-  tm <- regmatches(index_rbr$fn_in, ind)
+  tm <- regmatches(fn, ind)
   tm <- as.POSIXct(tm,
                    format = '%Y%m%d_%H%M',
                    tz = tz)
