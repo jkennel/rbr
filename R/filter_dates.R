@@ -8,56 +8,73 @@
 #' @param dat data.table to filter (name, datetime)
 #' @param filt data.table of filter start and end times (start, end)
 #' @param keep include or exclude the subsets
-#' @param which return the indices that match
-#' @param include_filt_cols include the columns in the filter table
+#' @param include_filt_cols include the columns in the filter table when keep is TRUE
 #'
 #' @return filtered data.table
 #'
 #' @export
 #===============================================================================
-filter_dates <- function(dat, filt, keep = FALSE, which = FALSE,
-                         include_filt_cols = FALSE){
+filter_dates <- function(dat, filt,
+                         keep = FALSE,
+                         include_filt_cols = FALSE) {
 
+
+  # filter with or without name column
   if (!'name' %in% names(filt) |
       !'name' %in% names(dat)) {
 
     setkey(filt, start, end)
-    filt[, id := 1:nrow(filt)]
+    key_nm <- key(filt)
+    dat_key <- dat[, list(start = datetime, end = datetime)]
+    rem_col <- NULL
 
-    if (include_filt_cols) {
-      inds <- foverlaps(dat[, list(start=datetime, end=datetime)],
-                        filt,
-                        type="within", which=TRUE)
-
-      out <- dat[!is.na(inds$yid)][, id := na.omit(inds$yid)]
-      setkey(out, id)
-      setkey(filt, id)
-      return(out[filt[, -c('start', 'end'), with = FALSE], nomatch = 0L])
-    }
-    inds <- foverlaps(dat[, list(start=datetime, end=datetime)],
-                      filt,
-                      type="within", which=TRUE)
   } else {
 
     setkey(filt, name, start, end)
-    inds <- foverlaps(dat[, list(name, start=datetime, end=datetime)],
-                      filt,
-                      type="within", which = TRUE)
-  }
+    key_nm <- key(filt)
+    dat_key <- dat[, list(name, start = datetime, end = datetime)]
 
-  if (which) {
-
-    return(inds$yid)
+    rem_col <- 'name'
 
   }
 
+  setkeyv(dat_key, key_nm)
+
+
+  # match intervals
+  inds <- na.omit(foverlaps(dat_key,
+                            filt,
+                            which = TRUE,
+                            type="within"), "yid")
+
+  # return the data.table inside the filter ranges
   if (keep) {
 
-    return(dat[!is.na(inds$yid)])
+    # return the data.table inside the filter ranges with filter data
+    if (include_filt_cols) {
 
+
+      # which filter group
+      filt[, id := 1:nrow(filt)]
+
+      out <- dat[inds$xid][, id := inds$yid]
+
+      setkey(out, id)
+      setkey(filt, id)
+
+      return(out[filt[, -c(rem_col), with = FALSE], nomatch = 0L][, -c('id'), with = FALSE])
+
+    } else {
+
+      return(dat[unique(inds$xid)])
+
+    }
+
+
+  # return the data.table outside of the filter ranges
   } else {
 
-    return(dat[is.na(inds$yid)])
+    return(dat[!unique(inds$xid)])
 
   }
 
@@ -69,30 +86,40 @@ filter_dates <- function(dat, filt, keep = FALSE, which = FALSE,
 # }
 
 
-#===============================================================================
-#' @title shift_values_range
-#'
-#' @description shift values for specific regions
-#'
-#' @author Jonathan Kennel \email{jkennel@uoguelph.ca}
-#'
-#' @param dat data.table to filter (name, datetime)
-#' @param shift data.table of filter start and end times (start, end)
-#'
-#' @return data.table with shifted values
-#'
-#' @export
-#===============================================================================
-shift_values_range <- function(dat, shift){
-
-  # hack for 'global variables' NOTE
-  name = NULL
-  datetime = NULL
-  start = NULL
-  end = NULL
-  val = NULL
 
 
-  dat[J(shift), on = .(name, datetime >= start, datetime <= end), val := val + shift]
-
-}
+# library(data.table)
+# library(rbr)
+#
+# wl <- data.table(datetime = seq(as.POSIXct('2012-01-01'), as.POSIXct('2012-05-01'), 1))
+# wl[, val := rnorm(nrow(wl))]
+# wl[, name := 'well_1']
+#
+# shift <- data.table(start = c(as.POSIXct('2012-02-01'),
+#                               as.POSIXct('2012-02-15')),
+#                     end = c(as.POSIXct('2012-03-01'),
+#                             as.POSIXct('2012-03-15')),
+#                     adj = c(1, 2))
+#
+# #shift[, name := c('well_1', 'well_1')]
+#
+# system.time(
+#
+# a <- filter_dates(wl, shift,
+#                   keep = TRUE,
+#                   include_filt_cols = TRUE)
+# )
+#
+# system.time(
+#
+#   a <- filter_dates(wl, shift,
+#                     keep = TRUE,
+#                     include_filt_cols = FALSE)
+# )
+#
+# system.time(
+#
+#   a <- filter_dates(wl, shift,
+#                     keep = FALSE,
+#                     include_filt_cols = TRUE)
+# )
