@@ -80,6 +80,54 @@ filter_dates <- function(dat, filt,
 
 }
 
+
+
+#===============================================================================
+#' @title find_nearest
+#'
+#' @description find the closest value in time
+#'
+#' @author Jonathan Kennel \email{jkennel@uoguelph.ca}
+#'
+#' @param transducer data.table of transducer measurements (name, datetime)
+#' @param manual data.table manual measurements (name, datetime)
+#' @param roll_size numeric maximum time difference (sec) to allow
+#'
+#' @return transducer measurements within roll_size time
+#'
+#' @export
+#===============================================================================
+find_nearest <- function(transducer, manual, roll_size = 86400*7) {
+
+
+  man <- copy(manual)
+  man[, datetime_man := datetime]
+
+  setkey(transducer, name, datetime)
+  setkey(manual, name, datetime)
+
+  tmp <- man[transducer,
+                roll = roll_size,
+                rollends = c(TRUE, TRUE),
+                nomatch = 0L]
+
+  return()
+
+}
+
+# library(data.table)
+# library(rbr)
+# wl <- data.table(datetime = seq(as.POSIXct('2012-01-01'), as.POSIXct('2012-05-01'), 1))
+# wl[, val := rnorm(nrow(wl))]
+# wl[, name := 'well_1']
+#
+# shift <- data.table(datetime = as.POSIXct('2012-02-15'), adj = c(1, 2))
+# shift[, name := 'well_1']
+#
+# tmp <- find_nearest(wl, shift, roll_size = 100)
+
+
+
 # compare_manual <- function(dat, blended, depths) {
 #   comp <- filter_dates(dat, blended, keep = TRUE, include_filt_cols = TRUE)
 #   comp <- comp[depths]
@@ -123,3 +171,5 @@ filter_dates <- function(dat, filt,
 #                     keep = FALSE,
 #                     include_filt_cols = TRUE)
 # )
+
+
