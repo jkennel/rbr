@@ -104,7 +104,7 @@ find_nearest <- function(transducer, manual, roll_size = 86400*7) {
   man[, datetime_man := datetime]
 
   setkey(transducer, name, datetime)
-  setkey(manual, name, datetime)
+  setkey(man, name, datetime)
 
   return(man[transducer,
              roll = roll_size,
