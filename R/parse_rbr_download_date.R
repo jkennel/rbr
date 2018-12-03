@@ -19,4 +19,11 @@ parse_rbr_download_date <- function(fn, tz = 'UTC') {
                    format = '%Y%m%d_%H%M',
                    tz = tz)
 
+  # return NA if no match
+  if(length(tm) == 0) {
+    return(NA)
+  }
+
+  return(tm)
+
 }
