@@ -5,8 +5,8 @@
 #'
 #' @author Jonathan Kennel \email{jkennel@uoguelph.ca}
 #'
-#' @param dat data.table to filter (name, datetime)
-#' @param filt data.table of filter start and end times (start, end)
+#' @param all data.table to filter (name, datetime)
+#' @param subsets data.table of filter start and end times (start, end)
 #' @param keep include or exclude the subsets
 #' @param include_filt_cols include the columns in the filter table when keep is TRUE
 #'
@@ -14,10 +14,12 @@
 #'
 #' @export
 #===============================================================================
-filter_dates <- function(dat, filt,
+filter_dates <- function(all, subsets,
                          keep = FALSE,
                          include_filt_cols = FALSE) {
 
+  dat <- copy(all)
+  filt <- copy(subsets)
 
   # filter with or without name column
   if (!'name' %in% names(filt) |

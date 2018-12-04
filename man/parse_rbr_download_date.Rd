@@ -20,4 +20,5 @@ parses that date to a POSIXct
 }
 \examples{
 dt <- parse_rbr_download_date('20141117_1240')
+dt <- parse_rbr_download_date('201adf41a11a7_1240')
 }
