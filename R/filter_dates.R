@@ -25,18 +25,18 @@ filter_dates <- function(all, subsets,
   if (!'name' %in% names(filt) |
       !'name' %in% names(dat)) {
 
-    setkey(filt, start, end)
+    setkeyv(filt, "start", "end")
     key_nm <- key(filt)
     dat_key <- dat[, list(start = datetime, end = datetime)]
     rem_col <- NULL
 
   } else {
 
-    setkey(filt, name, start, end)
+    setkeyv(filt, "name", "start", "end")
     key_nm <- key(filt)
     dat_key <- dat[, list(name, start = datetime, end = datetime)]
 
-    rem_col <- 'name'
+    rem_col <- "name"
 
   }
 
@@ -62,6 +62,7 @@ filter_dates <- function(all, subsets,
 
       setkeyv(out, 'id')
       setkeyv(filt, 'id')
+      print('here')
       #out <- out[filt[, -c(rem_col), with = FALSE], nomatch = 0L]
       out <- out[filt, nomatch = 0L]
       #out <- out[, -c('id'), with = FALSE]
