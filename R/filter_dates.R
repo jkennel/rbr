@@ -58,13 +58,14 @@ filter_dates <- function(all, subsets,
 
       # which filter group
       filt[, id := 1:nrow(filt)]
-
       out <- dat[inds$xid][, id := inds$yid]
 
-      setkey(out, id)
-      setkey(filt, id)
-
-      return(out[filt[, -c(rem_col), with = FALSE], nomatch = 0L][, -c('id'), with = FALSE])
+      setkeyv(out, 'id')
+      setkeyv(filt, 'id')
+      #out <- out[filt[, -c(rem_col), with = FALSE], nomatch = 0L]
+      out <- out[filt, nomatch = 0L]
+      #out <- out[, -c('id'), with = FALSE]
+      return(out)
 
     } else {
 
@@ -143,12 +144,11 @@ find_nearest <- function(transducer, manual, roll_size = 86400*7) {
 # wl[, val := rnorm(nrow(wl))]
 # wl[, name := 'well_1']
 #
-# shift <- data.table(start = c(as.POSIXct('2012-02-01'),
-#                               as.POSIXct('2012-02-15')),
-#                     end = c(as.POSIXct('2012-03-01'),
-#                             as.POSIXct('2012-03-15')),
-#                     adj = c(1, 2))
-#
+# shift <- data.table(start = seq(as.POSIXct('2012-02-01'),
+#                               as.POSIXct('2012-02-15'), 86400),
+#                     end = seq(as.POSIXct('2012-02-03'),
+#                             as.POSIXct('2012-03-16'), 86400))
+# shift[, adj := rnorm(nrow(shift))]
 # #shift[, name := c('well_1', 'well_1')]
 #
 # system.time(
