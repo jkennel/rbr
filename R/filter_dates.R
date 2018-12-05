@@ -62,7 +62,7 @@ filter_dates <- function(all, subsets,
 
       setkeyv(out, 'id')
       setkeyv(filt, 'id')
-      print('here')
+
       #out <- out[filt[, -c(rem_col), with = FALSE], nomatch = 0L]
       out <- out[filt, nomatch = 0L]
       #out <- out[, -c('id'), with = FALSE]
@@ -110,10 +110,13 @@ find_nearest <- function(transducer, manual, roll_size = 86400*7) {
   setkey(transducer, name, datetime)
   setkey(man, name, datetime)
 
-  return(man[transducer,
-             roll = roll_size,
-             rollends = c(TRUE, TRUE),
-             nomatch = 0L])
+  # should be a more efficient way to do this but could not get roll_ends to work
+  return(unique(rbind(man[transducer,
+                          roll = -100L,
+                          nomatch = 0L],
+                      man[transducer,
+                          roll = 100L,
+                          nomatch = 0L])))
 
 }
 
@@ -123,11 +126,11 @@ find_nearest <- function(transducer, manual, roll_size = 86400*7) {
 # wl[, val := rnorm(nrow(wl))]
 # wl[, name := 'well_1']
 #
-# shift <- data.table(datetime = as.POSIXct('2012-02-15'), adj = c(1, 2))
+# shift <- data.table(datetime = as.POSIXct(c('2012-02-15', '2012-02-10', '2012-02-05', '2012-03-01')), adj = c(1, 2, 3, 4))
 # shift[, name := 'well_1']
 #
-# tmp <- find_nearest(wl, shift, roll_size = 100)
-
+# tmp <- unique(find_nearest(wl, shift, roll_size = 100))
+# table(tmp$adj)
 
 
 # compare_manual <- function(dat, blended, depths) {
