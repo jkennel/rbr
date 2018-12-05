@@ -25,14 +25,14 @@ filter_dates <- function(all, subsets,
   if (!'name' %in% names(filt) |
       !'name' %in% names(dat)) {
 
-    setkeyv(filt, "start", "end")
+    setkeyv(filt, c("start", "end"))
     key_nm <- key(filt)
     dat_key <- dat[, list(start = datetime, end = datetime)]
     rem_col <- NULL
 
   } else {
 
-    setkeyv(filt, "name", "start", "end")
+    setkeyv(filt, c("name", "start", "end"))
     key_nm <- key(filt)
     dat_key <- dat[, list(name, start = datetime, end = datetime)]
 
@@ -151,7 +151,7 @@ find_nearest <- function(transducer, manual, roll_size = 86400*7) {
 # shift <- data.table(start = seq(as.POSIXct('2012-02-01'),
 #                               as.POSIXct('2012-02-15'), 86400),
 #                     end = seq(as.POSIXct('2012-02-03'),
-#                             as.POSIXct('2012-03-16'), 86400))
+#                             as.POSIXct('2012-02-17'), 86400))
 # shift[, adj := rnorm(nrow(shift))]
 # #shift[, name := c('well_1', 'well_1')]
 #
