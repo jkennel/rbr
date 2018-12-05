@@ -112,10 +112,10 @@ find_nearest <- function(transducer, manual, roll_size = 86400*7) {
 
   # should be a more efficient way to do this but could not get roll_ends to work
   return(unique(rbind(man[transducer,
-                          roll = -100L,
+                          roll = -roll_size,
                           nomatch = 0L],
                       man[transducer,
-                          roll = 100L,
+                          roll = roll_size,
                           nomatch = 0L])))
 
 }
