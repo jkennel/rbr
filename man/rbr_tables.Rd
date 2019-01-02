@@ -13,7 +13,7 @@ rbr_tables(db_name)
 the .rsk file as a list of tables
 }
 \description{
-get all the tables in the .rsk file
+get the raw tables from the .rsk file
 }
 \author{
 Jonathan Kennel \email{jkennel@uoguelph.ca}

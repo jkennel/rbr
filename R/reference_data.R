@@ -13,7 +13,8 @@
 #' @param start_date starting date for the reference
 #' @param end_date end date for the reference
 #'
-#' @return
+#' @return pressure to elevation
+#'
 #' @export
 #'
 reference_data <- function(data_depth,

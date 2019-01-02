@@ -27,6 +27,9 @@ reference_data(data_depth, id_col = "id", path_col = "path",
 
 \item{end_date}{end date for the reference}
 }
+\value{
+pressure to elevation
+}
 \description{
 Convert pressure measurements to elevation, depth to water and ensure
 consistent units

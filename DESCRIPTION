@@ -1,7 +1,7 @@
 Package: rbr
 Type: Package
 Title: Assists with handling rbr (.rsk files) in R
-Version: 0.0.1
+Version: 0.0.2
 Author: Jonathan Kennel
 Maintainer: Jonathan Kennel <jkennel@uoguelph.ca>
 Description: Assists with handling databases from R. Designed for reading, and
