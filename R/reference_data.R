@@ -42,6 +42,7 @@ reference_data <- function(data_depth,
                            start_date = start_date,
                            end_date = end_date,
                            use_rbr_tz = FALSE)
+
   baro <- baro[grepl('pres', variable)]
 
 

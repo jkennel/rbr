@@ -4,10 +4,12 @@
 \alias{rbr_tables}
 \title{rbr_tables}
 \usage{
-rbr_tables(db_name)
+rbr_tables(db_name, which_tables = NA)
 }
 \arguments{
 \item{db_name}{the path to the rbr database ( rsk )}
+
+\item{which_tables}{the names of the specific tables to get}
 }
 \value{
 the .rsk file as a list of tables
