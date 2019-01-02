@@ -29,7 +29,7 @@ rbr_table_names <- function(db_name) {
 #' @author Jonathan Kennel \email{jkennel@uoguelph.ca}
 #'
 #' @param db_name the path to the rbr database ( rsk )
-#' @param which_tables the names of the specific tables to get
+#' @param which_tables the names of the specific tables to get, NA get all tables
 #'
 #' @return the .rsk file as a list of tables
 #'
