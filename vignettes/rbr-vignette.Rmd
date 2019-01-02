@@ -10,7 +10,13 @@ vignette: >
 ---
 ## Install
 
-To install this package run the following code and choose the appropriate tar.gz file.
+Typically one installs using install_github from the package devtools with the following code:
+```{r inst, echo=TRUE, eval=FALSE}
+library(devtools)
+install_github('jkennel/rbr')
+```
+
+One can also install from a source file where you choose the appropriate tar.gz file.
 
 ```{r a0, echo=TRUE, eval=FALSE}
 install.packages(file.choose(), repos = NULL, type = 'source')
@@ -18,7 +24,7 @@ install.packages(file.choose(), repos = NULL, type = 'source')
 
 
 ## Load package
-```{r a1.5, echo=TRUE, eval=TRUE, results='hide',message=FALSE, warning=FALSE}
+```{r a1dot5, echo=TRUE, eval=TRUE, results='hide', message=FALSE, warning=FALSE}
 library(rbr)
 ```
 
@@ -26,11 +32,12 @@ library(rbr)
 
 This reads a single file.
 
-```{r a1, echo=TRUE, eval=FALSE}
+```{r a1, echo = TRUE, eval = TRUE, warning = FALSE}
+
 file_name_and_path <- '/media/kennel/Data/phd/personnel/pat/syngenta/SYN UW1 Baro P1 - 077653_20150410_1435.rsk'
 
-rbr_data <- read_rbr( db_name = file_name_and_path, use_rbr_tz = FALSE)
-(rbr_data)
+rbr_data <- read_rbr(db_name = file_name_and_path, use_rbr_tz = FALSE)
+nrow(rbr_data)
 
 ```
 
@@ -39,13 +46,13 @@ rbr_data <- read_rbr( db_name = file_name_and_path, use_rbr_tz = FALSE)
 
 This reads in a single file and filters it by date.
 
-```{r a2, echo=TRUE, eval=FALSE}
-file_name_and_path <- '/media/kennel/Data/phd/personnel/pat/syngenta/SYN UW1 Baro P1 - 077653_20150410_1435.rsk'
+```{r a2, echo = TRUE, eval = TRUE, warning = FALSE}
+
 rbr_data <- filter_rbr( db_name = file_name_and_path, 
                       start_date = '2014-12-20', 
                       end_date = '2014-12-21', 
                       use_rbr_tz = FALSE)
-(rbr_data)
+nrow(rbr_data)
 
 ```
 
@@ -53,15 +60,12 @@ rbr_data <- filter_rbr( db_name = file_name_and_path,
 
 This reads in all files from a folder.
 
-```{r a3, echo=TRUE, eval=FALSE}
+```{r a3, echo = TRUE, eval = TRUE, warning = FALSE}
 
 folder_path <- '/media/kennel/Data/phd/personnel/pat/syngenta'
-profvis(
-  
 rbr_data <- read_rbr_folder(folder_path, use_rbr_tz = FALSE)
-)
+nrow(rbr_data)
 
-(rbr_data)
 ```
 
 
@@ -69,28 +73,68 @@ rbr_data <- read_rbr_folder(folder_path, use_rbr_tz = FALSE)
 
 This reads in all files from a folder.
 
-```{r a4, echo=TRUE, eval=FALSE}
+```{r a4, echo = TRUE, eval = TRUE, warning = FALSE}
 
-folder_path <- '/media/kennel/Data/phd/personnel/pat/syngenta'
 rbr_data <- filter_rbr_folder(folder_path, 
                       start_date = '2014-12-20', 
                       end_date = '2014-12-21',
                       use_rbr_tz = FALSE)
+nrow(rbr_data)
 
 ```
 
 
-## Read all files in folder and filter by date
+## Read a set of files given a vector of file names and paths.
 
-This reads in all files from a folder.
 
-```{r a5, echo=TRUE, eval=TRUE}
+```{r a5, echo = TRUE, eval = TRUE, warning = FALSE}
 
-folder_path <- '/media/kennel/Data/phd/personnel/pat/syngenta'
-files <- list.files(folder_path, full.names = TRUE, pattern = '*.rsk')
+# get the first three file names and paths from the folder
+(files <- list.files(folder_path, full.names = TRUE, pattern = '*.rsk')[1:3])
+
+rbr_data <- read_rbr_files(files, use_rbr_tz = FALSE)
+nrow(rbr_data)
+
+```
+
+
+
+## Read a set of files given a vector of file names and paths and filters by date.
+
+
+```{r a6, echo=TRUE, eval = TRUE, warning = FALSE}
+
 rbr_data <- filter_rbr_files(files, 
                       start_date = '2014-12-20', 
                       end_date = '2014-12-21', 
                       use_rbr_tz = FALSE)
-(rbr_data)
+
+nrow(rbr_data)
+
+```
+
+## List .rsk info
+
+```{r a61, echo=TRUE, eval = TRUE, warning = FALSE}
+info <- rbr_info(file_name_and_path)
+(info)
+```
+
+## List tables in .rsk
+
+```{r a7, echo=TRUE, eval = TRUE, warning = FALSE}
+db <- dplyr::src_sqlite(file_name_and_path)
+
+nm_tbl <- dplyr::src_tbls(db)
+
+(nm_tbl)
+
+```
+
+## List fields for each table in .rsk
+
+```{r a8, echo=TRUE, eval = TRUE, warning = FALSE}
+
+lapply(nm_tbl, function(x) dplyr::tbl(db,x))
+
 ```
