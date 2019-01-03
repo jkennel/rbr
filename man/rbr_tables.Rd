@@ -9,7 +9,7 @@ rbr_tables(db_name, which_tables = NA)
 \arguments{
 \item{db_name}{the path to the rbr database ( rsk )}
 
-\item{which_tables}{the names of the specific tables to get}
+\item{which_tables}{the names of the specific tables to get, NA get all tables}
 }
 \value{
 the .rsk file as a list of tables

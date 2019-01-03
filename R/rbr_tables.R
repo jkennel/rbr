@@ -52,10 +52,34 @@ rbr_tables <- function(db_name, which_tables = NA) {
   }
 
   dat <- lapply(tn, function(x) dplyr::collect(dplyr::tbl(db, x)))
-
+  dat <- lapply(dat, int64_to_posix)
   names(dat) <- tn
 
   return(dat)
 
 }
 
+
+#===============================================================================
+#' @title int64_to_posix
+#'
+#' @description convert integer64 to posix
+#'
+#' @author Jonathan Kennel \email{jkennel@uoguelph.ca}
+#'
+#' @param dt the table of data
+#'
+#' @return data.table with integer64 converted to POSIXct
+#'
+#' @export
+#'
+#===============================================================================
+int64_to_posix <- function(dt) {
+  setDT(lapply(dt, function(x) {
+    if(class(x) == 'integer64') {
+      anytime::anytime(x / 1000, asUTC = TRUE)
+    } else {
+      x
+    }
+  }))
+}
