@@ -4,15 +4,9 @@
 \alias{filter_dates}
 \title{filter_dates}
 \usage{
-filter_dates(dat, filt)
-
-filter_dates(dat, filt)
+filter_dates(all, subsets, keep = FALSE, include_filt_cols = FALSE)
 }
 \arguments{
-\item{dat}{data.table to filter (name, datetime)}
-
-\item{filt}{data.table of filter start and end times (start, end)}
-
 \item{all}{data.table to filter (name, datetime)}
 
 \item{subsets}{data.table of filter start and end times (start, end)}
@@ -23,16 +17,10 @@ filter_dates(dat, filt)
 }
 \value{
 filtered data.table
-
-filtered data.table
 }
 \description{
 remove values from a data.table (non-equi join filter)
-
-remove values from a data.table (non-equi join filter)
 }
 \author{
-Jonathan Kennel \email{jkennel@uoguelph.ca}
-
 Jonathan Kennel \email{jkennel@uoguelph.ca}
 }
