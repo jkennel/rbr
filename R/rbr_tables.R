@@ -75,6 +75,7 @@ rbr_tables <- function(db_name, which_tables = NA) {
 #'
 #===============================================================================
 int64_to_posix <- function(dt) {
+
   setDT(lapply(dt, function(x) {
     if(class(x) == 'integer64') {
       anytime::anytime(x / 1000, asUTC = TRUE)
@@ -82,4 +83,5 @@ int64_to_posix <- function(dt) {
       x
     }
   }))
+
 }
