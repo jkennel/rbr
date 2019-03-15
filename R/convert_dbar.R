@@ -14,5 +14,5 @@
 #'
 #===============================================================================
 convert_dbar <- function(val, to_unit = 'm'){
-  ud.convert(ud.convert(val, 'dbar', 'cmH2O'), 'cm', to_unit)
+  conv_unit(conv_unit(val, 'dbar', 'cmH2O'), 'cm', to_unit)
 }
