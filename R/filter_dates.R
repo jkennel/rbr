@@ -89,7 +89,7 @@ filter_dates <- function(all, subsets,
 #===============================================================================
 #' @title find_nearest
 #'
-#' @description find the closest value in time
+#' @description find the closest values in time
 #'
 #' @author Jonathan Kennel \email{jkennel@uoguelph.ca}
 #'

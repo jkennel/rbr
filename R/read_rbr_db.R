@@ -39,7 +39,7 @@ read_rbr_db <- function(db_name, sql_text, use_rbr_tz = TRUE) {
     if (any(grepl('parameterKeys', nm_tbl))) {
       tz_offset <- data.table(collect(tbl(db, 'parameterKeys')))
       tz_offset <- tz_offset[key == 'OFFSET_FROM_UTC']$value
-      print(tz_offset)
+      #print(tz_offset)
       tz_offset <- as.numeric(tz_offset) * 3600
       if(is.na(tz_offset)) {
         warning(paste0('Time zone offset from UTC is NA, using 0'))

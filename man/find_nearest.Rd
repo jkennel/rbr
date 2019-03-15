@@ -17,7 +17,7 @@ find_nearest(transducer, manual, roll_size = 86400 * 7)
 transducer measurements within roll_size time
 }
 \description{
-find the closest value in time
+find the closest values in time
 }
 \author{
 Jonathan Kennel \email{jkennel@uoguelph.ca}

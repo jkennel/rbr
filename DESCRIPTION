@@ -18,7 +18,8 @@ Imports:
     dplyr,
     tools,
     assertthat,
-    anytime
+    anytime,
+    stringi
 Suggests:
     knitr,
     rmarkdown
