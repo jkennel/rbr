@@ -42,6 +42,8 @@ filter_dates <- function(all, subsets,
 
   setkeyv(dat_key, key_nm)
 
+  # print(str(filt))
+  # print(str(dat_key))
 
   # match intervals
   inds <- na.omit(foverlaps(dat_key,
@@ -152,7 +154,7 @@ find_nearest <- function(transducer, manual, roll_size = 86400*7) {
 #' @author Jonathan Kennel \email{jkennel@uoguelph.ca}
 #'
 #' @param dat data.table to filter (name, datetime)
-#' @param shift data.table of filter start and end times (start, end)
+#' @param shift data.table of filter start and end times (name, start, end)
 #'
 #' @return data.table with shifted values
 #'
@@ -160,8 +162,10 @@ find_nearest <- function(transducer, manual, roll_size = 86400*7) {
 #===============================================================================
 shift_values_range <- function(dat, shift){
 
-  dat[J(shift), on = .(name, datetime >= start, datetime <= end), val := val + shift]
+  dat[J(shift), on = .(name, datetime >= start, datetime <= end),
+      val := val + shift]
 
+  dat
 }
 
 
