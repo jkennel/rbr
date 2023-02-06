@@ -35,7 +35,7 @@ This reads a single file.
 ```{r a1, echo = TRUE, eval = TRUE, warning = FALSE}
 
 file_name_and_path <- '/media/kennel/Data/phd/personnel/pat/syngenta/SYN UW1 Baro P1 - 077653_20150410_1435.rsk'
-
+file_name_and_path <- '../../../Downloads/GDC-07 BARO 077654_20190208_1209.rsk'
 rbr_data <- read_rbr(db_name = file_name_and_path, use_rbr_tz = FALSE)
 nrow(rbr_data)
 
@@ -123,9 +123,9 @@ info <- rbr_info(file_name_and_path)
 ## List tables in .rsk
 
 ```{r a7, echo=TRUE, eval = TRUE, warning = FALSE}
-db <- dplyr::src_sqlite(file_name_and_path)
+db <- DBI::dbConnect(RSQLite::SQLite(),file_name_and_path)
 
-nm_tbl <- dplyr::src_tbls(db)
+nm_tbl <- DBI::dbListTables(db)
 
 (nm_tbl)
 

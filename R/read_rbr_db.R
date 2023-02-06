@@ -38,7 +38,7 @@ read_rbr_db <- function(db_name, sql_text, use_rbr_tz = TRUE) {
   if (use_rbr_tz) {
     if (any(grepl('parameterKeys', nm_tbl))) {
       tz_offset <- data.table(collect(tbl(db, 'parameterKeys')))
-      tz_offset <- tz_offset[key == 'OFFSET_FROM_UTC']$value
+      tz_offset <- tz_offset[key == 'OFFSET_FROM_UTC']$value[1]
       #print(tz_offset)
       tz_offset <- as.numeric(tz_offset) * 3600
       if(all(is.na(tz_offset))) {
@@ -79,8 +79,8 @@ read_rbr_db <- function(db_name, sql_text, use_rbr_tz = TRUE) {
     # make sure it has the correct timezone
     # only single shift is allowed for all times
     if (nrow(dt) > 0) {
-      if(tz_offset != 0) {
-        tz_text <- paste0('UTC', tz_offset / 3600, 'h')
+      if(all(tz_offset != 0)) {
+        tz_text <- paste0('UTC', tz_offset[1] / 3600, 'h')
       } else {
         tz_text <- 'UTC'
       }
