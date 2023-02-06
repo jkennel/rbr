@@ -16,8 +16,13 @@
 #' @importFrom dplyr collect
 #' @importFrom dplyr select
 #' @importFrom dplyr sql
-#' @importFrom dplyr src_sqlite
 #' @importFrom dplyr tbl
+#' @importFrom DBI dbConnect
+#' @importFrom DBI dbListTables
+#' @importFrom RSQLite SQLite
+#' @importFrom measurements conv_unit
+#' @importFrom stats na.omit
+#'
 #' @export
 #===============================================================================
 filter_rbr <- function(db_name, start_date, end_date, use_rbr_tz = TRUE) {

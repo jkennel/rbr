@@ -4,8 +4,7 @@
 \alias{filter_rbr_folder}
 \title{obtain data from folder containing rbr sqlite3 databases}
 \usage{
-filter_rbr_folder(folder_path, start_date, end_date, use_rbr_tz = TRUE,
-  ...)
+filter_rbr_folder(folder_path, start_date, end_date, use_rbr_tz = TRUE, ...)
 }
 \arguments{
 \item{folder_path}{the path to the rbr database ( rsk )}

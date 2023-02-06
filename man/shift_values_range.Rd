@@ -9,7 +9,7 @@ shift_values_range(dat, shift)
 \arguments{
 \item{dat}{data.table to filter (name, datetime)}
 
-\item{shift}{data.table of filter start and end times (start, end)}
+\item{shift}{data.table of filter start and end times (name, start, end)}
 }
 \value{
 data.table with shifted values
@@ -34,7 +34,7 @@ shift values for specific regions
 #===============================================================================
 filter_dates <- function(dat, filt){
 
-dat[!J(filt), on = .(name, datetime >= start, datetime <= end)]
+  dat[!J(filt), on = .(name, datetime >= start, datetime <= end)]
 
 }
 }

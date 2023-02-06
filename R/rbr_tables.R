@@ -14,7 +14,7 @@
 #===============================================================================
 rbr_table_names <- function(db_name) {
 
-  db <- dplyr::src_sqlite(db_name)
+  db <- DBI::dbConnect(RSQLite::SQLite(), db_name)
 
   return(dplyr::src_tbls(db))
 
@@ -39,8 +39,8 @@ rbr_table_names <- function(db_name) {
 rbr_tables <- function(db_name, which_tables = NA) {
 
 
-  db <- dplyr::src_sqlite(db_name)
-  tn <- dplyr::src_tbls(db)
+  db <- DBI::dbConnect(RSQLite::SQLite(), db_name)
+  tn <- DBI::dbListTables(db)
 
   # subset of tables to get
   if(!all(is.na(which_tables))) {
@@ -77,7 +77,7 @@ rbr_tables <- function(db_name, which_tables = NA) {
 int64_to_posix <- function(dt) {
 
   setDT(lapply(dt, function(x) {
-    if(class(x) == 'integer64') {
+    if(inherits(x, 'integer64')) {
       anytime::anytime(x / 1000, asUTC = TRUE)
     } else {
       x

@@ -23,8 +23,8 @@ read_rbr_db <- function(db_name, sql_text, use_rbr_tz = TRUE) {
   datasetID <- NULL
 
   # connect to sqlite database
-  db <- dplyr::src_sqlite(db_name)
-  nm_tbl <- dplyr::src_tbls(db)
+  db <- DBI::dbConnect(RSQLite::SQLite(), db_name)
+  nm_tbl <- DBI::dbListTables(db)
 
   # get column names
   if (!any(grepl('channels', nm_tbl))) {
@@ -41,7 +41,7 @@ read_rbr_db <- function(db_name, sql_text, use_rbr_tz = TRUE) {
       tz_offset <- tz_offset[key == 'OFFSET_FROM_UTC']$value
       #print(tz_offset)
       tz_offset <- as.numeric(tz_offset) * 3600
-      if(is.na(tz_offset)) {
+      if(all(is.na(tz_offset))) {
         warning(paste0('Time zone offset from UTC is NA, using 0'))
         tz_offset <- 0
       }
@@ -49,7 +49,7 @@ read_rbr_db <- function(db_name, sql_text, use_rbr_tz = TRUE) {
       tz_offset <- data.table(collect(tbl(db, 'parameters')))
       tz_offset <- tz_offset$offsetfromutc
       tz_offset <- as.numeric(tz_offset) * 3600
-      if(is.na(tz_offset)) {
+      if(all(is.na(tz_offset))) {
         warning(paste0('Time zone offset from UTC is NA, using 0'))
         tz_offset <- 0
       }

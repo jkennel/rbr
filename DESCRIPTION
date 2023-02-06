@@ -16,6 +16,8 @@ Depends:
     measurements
 Imports:
     dplyr,
+    RSQLite,
+    DBI,
     tools,
     assertthat,
     anytime,
@@ -24,4 +26,4 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
-RoxygenNote: 6.1.1
+RoxygenNote: 7.2.3
